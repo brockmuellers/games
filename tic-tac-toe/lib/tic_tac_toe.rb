@@ -38,16 +38,14 @@ class TicTacToe
   private
 
   def create_game
-    # @cli.choose do |menu|
-    #   menu.layout = :one_line
-    #   menu.prompt = 'What size would you like your board to be? '
-    #   menu.choices('3', '5', '7', '9')
-    # end
+    answer = @cli.choose do |menu|
+      menu.layout = :one_line
+      menu.prompt = 'What size would you like your board to be? '
+      menu.choices(:three, :five, :seven, :nine)
+    end
 
-    # Game.new(answer.to_i)
-
-    # This line is for testing
-    Game.new(3)
+    answer_ints = { three: 3, five: 5, seven: 7, nine: 9 }
+    Game.new(answer_ints[answer])
   end
 
   def create_player(symbol)
@@ -78,7 +76,7 @@ class TicTacToe
     if @current_player.type == :human
       @cli.ask("#{@current_player.name}: What position would you like to claim?", Integer)
     else
-      @current_player.ai_move(@current_player.name, @game.board)
+      @current_player.ai_move(@game.board)
     end
   end
 

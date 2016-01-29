@@ -48,7 +48,7 @@ class Board
   end
 
   def player_wins?(symbol)
-    @winning_positions.any? { |a| (a & player_positions(symbol)).length == 3 }
+    @winning_positions.any? { |a| (a & player_positions(symbol)).length == @size }
   end
 
   # Array of winning positions. For a 3 x 3 board, this would return:
@@ -79,7 +79,7 @@ class Board
       elsif number_length == 1
         "-#{i}-"
       else
-        "-#{sprintf('%02d', i)}" # add leading zeros
+        "#{sprintf('%02d', i)}-" # add leading zeros
       end
     end
   end
