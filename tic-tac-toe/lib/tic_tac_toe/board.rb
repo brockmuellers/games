@@ -14,6 +14,8 @@
 # |OOO -7- -8-|
 # =============
 # would have @state = ['X', 'X', nil, nil, 'O', nil, 'O', nil, 'O']
+# TODO: look into other ways of representing and displaying board:
+#   current array iterations, conversions to/from multimensional array etc. are unreadable
 
 class Board
   attr_accessor :state
@@ -54,7 +56,7 @@ class Board
   # Array of winning positions. For a 3 x 3 board, this would return:
   # [[0, 4, 8], [2, 4, 6], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 1, 2], [3, 4, 5], [6, 7, 8]]
   def winning_positions
-    range = Array(0..(@size-1))
+    range = (0..(@size-1)).to_a
 
     diagonal_down = [range.map { |i| i*@size + i }]
     diagonal_up = [range.map { |i| (i+1)*(@size-1) }]
@@ -70,21 +72,24 @@ class Board
 
   private
 
+  # Returns state to be displayed (each array element is something like '-1-', '16-', '256', 'XXX')
   def printable_state
-    number_length = (@size**2).to_s.length # find max number of digits required (either 1 or 2)
+    number_length = (@size**2).to_s.length # find max number of digits required (1, 2, or 3)
 
     @state.map.with_index do |e, i|
       if e
         e*3
       elsif number_length == 1
         "-#{i}-"
+      elsif number_length == 2
+        sprintf('%02d-', i) # add leading zeros
       else
-        "#{sprintf('%02d', i)}-" # add leading zeros
+        sprintf('%03d', i) # add leading zeros
       end
     end
   end
 
-  def multidimensional_state(ary = @state)
+  def multidimensional_state(ary)
     (0..(@size-1)).map do |y|
       start = 0 + @size*y
       finish = (@size-1) + @size*y

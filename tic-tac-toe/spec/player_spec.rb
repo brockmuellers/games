@@ -6,9 +6,16 @@ describe 'Player' do
       @board = double('Board', empty_positions: [2, 3, 5, 7])
     end
 
+    context 'for AI player edgar' do
+      # TODO: not implemented
+    end
 
-    context 'for AI player stupid' do
-      subject(:move) { Player.new('X', 'stupid', 'ai').ai_move(@board) }
+    context 'for AI player minnie' do
+      # TODO: not implemented
+    end
+
+    context 'for AI player speedy' do
+      subject(:move) { Player.new('X', 'speedy', 'ai').ai_move(@board) }
 
       it 'should select a random empty position' do
         expect(@board.empty_positions).to include(subject)
